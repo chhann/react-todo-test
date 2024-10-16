@@ -1,16 +1,15 @@
-import { useEffect, useState } from "react";
-
 import "./App.css";
+import { useEffect, useState } from "react";
+import { useGetItem } from "./hooks/useGetItem";
+import { useChangeDate } from "./hooks/useChangeDate";
 
 function App() {
-  const getTodoList = () => {
-    const StorageTodoList = localStorage.getItem('todoList');
-    return StorageTodoList ? JSON.parse(StorageTodoList) : [];
-  }
-  
-  const[todoList, setTodoList] = useState(getTodoList);
+  const getTOdoList = useGetItem();
+  const[todoList, setTodoList] = useState(getTOdoList);
   const[showTodoList, setShowTodoList] = useState([]);
   const[newContent, setNewContent] = useState("");
+  const[showStatus, setShowStatus] = useState("전체");
+  // const changeDate = useChangeDate();
   
   // todo 내용 변경 될때마다 실행
   useEffect(() => {
@@ -20,10 +19,11 @@ function App() {
     setShowTodoList(todoList.map(todo => (
       { ...todo, updateStatus: false, inputValue: todo.title }
     )));
-  }, [todoList]);
+
+    todoListFilter(showStatus);
+  }, [todoList, showStatus]);
 
 
-  // console.log(todoList);
 
   // 할일 추가
   const addContent = () => {
@@ -39,7 +39,8 @@ function App() {
     setNewContent(e.target.value);
   }
 
-  // 타임스탬프 값 변경
+  ///////////
+  //타임스탬프 값 변경
   const changeDate = (timestamp) => {
     let date = new Date(timestamp);
 
@@ -71,6 +72,7 @@ function App() {
       }));
   }
 
+  ///////////
   // todoList 필터 전체/완료/미완료
   const todoListFilter  = (filterValue) => {
 
@@ -92,8 +94,10 @@ function App() {
           default:
             return true;
           }
-        })
-      
+        }).map((todo) => ({
+          ...todo,
+          showStatus: filterValue,
+        }))
     )
   }
 
@@ -101,7 +105,7 @@ function App() {
   const openUpdateInput = (todoId) => {
     setShowTodoList(showTodoList.map(todo => {
       if (todo.id === todoId) {
-        return { ...todo, updateStatus: true };
+        return { ...todo, updateStatus: true, inputValue:todo.title};
       }
       return todo;
     }));
@@ -119,33 +123,36 @@ function App() {
     }));
   };
   
-console.log(showTodoList);
 
 
-// 수정 취소
-const updateCancle = (todoId) => {
-  setShowTodoList(showTodoList.map(todo => {
-    if (todo.id === todoId) {
-      return { ...todo, updateStatus: false };
-    }
-    return todo;
-  }));
-};
+  // 수정 취소
+  const updateCancle = (todoId) => {
+    setShowTodoList(showTodoList.map(todo => {
+      if (todo.id === todoId) {
+        return { ...todo, updateStatus: false };
+      }
+      return todo;
+    }));
+  };
 
-// 수정하기 
-const updateContent = (todoId) => {
-  console.log(todoList);
-  
-  setTodoList(showTodoList.map(todo => {
-    if (todo.id === todoId) {
-      const { inputValue, updateStatus, ...rest } =todo;
-      return { ...rest, title: inputValue }
-    }
-    return todo;
-  }));
+  // 수정하기 
+  const updateContent = (todoId) => {
+    const updateVlaue = showTodoList.filter(todo => todo.id === todoId)[0]
+    
+    setTodoList(todoList.map(todo => {
+      if (todo.id === todoId) {
+        return {...todo, title: updateVlaue.inputValue }
+      }
+      return todo;
+    }));
+    
+    updateCancle(todoId);
+  };
 
-  updateCancle(todoId);
-};
+  //삭제하기
+  const deleteTodo = (todoId) => {
+    setTodoList(todoList.filter(todo => todo.id !== todoId))
+  }
 
   return (
     <div className="App">
@@ -156,9 +163,9 @@ const updateContent = (todoId) => {
 
       {/* todo 목록 필터 */}
       <div>
-        <button onClick={() => todoListFilter("전체")}>전체</button>
-        <button onClick={() => todoListFilter("완료")}>완료</button>
-        <button onClick={() => todoListFilter("미완료")}>미완료</button>
+        <button onClick={() => setShowStatus("전체")}>전체</button>
+        <button onClick={() => setShowStatus("완료")}>완료</button>
+        <button onClick={() => setShowStatus("미완료")}>미완료</button>
       </div>
 
       {/* todo 목록 */}
@@ -205,7 +212,8 @@ const updateContent = (todoId) => {
                   {/* 수정버튼 */}
                   <button onClick={() => {openUpdateInput(todo.id)}}>수정</button>
                   {/* 삭제버튼 */}
-                  <button>삭제</button>
+                  <button onClick={() => {deleteTodo(todo.id)}}>삭제</button>
+                  
                 </li>
               )
             })

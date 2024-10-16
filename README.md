@@ -75,3 +75,9 @@ npm start
 5. 개발한 내용을 틈틈이 git 커밋으로 제대로 기록하시고, 푸시해주세요.
 
 6. 제가 github에서 코드 및 커밋 내역을 보고 평가합니다.
+
+
+
+메모
+const { inputValue, updateStatus, ...rest } = todo;
+return { ...rest, title: inputValue }
