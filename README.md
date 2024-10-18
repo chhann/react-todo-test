@@ -81,3 +81,5 @@ npm start
 메모
 const { inputValue, updateStatus, ...rest } = todo;
 return { ...rest, title: inputValue }
+
+hook과 util에 차이

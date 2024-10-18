@@ -1,17 +1,16 @@
-import "./App.css";
+/** @jsxImportSource @emotion/react */
+import * as S from "./style.js";
 import { useEffect, useState } from "react";
 import { useGetItem } from "./hooks/useGetItem";
-import { useChangeDate } from "./hooks/useChangeDate";
+import { changeDate } from "./hooks/changeDate";
 
 function App() {
-  const getTOdoList = useGetItem();
-  const[todoList, setTodoList] = useState(getTOdoList);
+  const getTodoList = useGetItem();
+  const[todoList, setTodoList] = useState(getTodoList);
   const[showTodoList, setShowTodoList] = useState([]);
   const[newContent, setNewContent] = useState("");
   const[showStatus, setShowStatus] = useState("전체");
-  // const changeDate = useChangeDate();
   
-  // todo 내용 변경 될때마다 실행
   useEffect(() => {
     localStorage.setItem('todoList', JSON.stringify(todoList));
     
@@ -39,23 +38,6 @@ function App() {
     setNewContent(e.target.value);
   }
 
-  ///////////
-  //타임스탬프 값 변경
-  const changeDate = (timestamp) => {
-    let date = new Date(timestamp);
-
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1; 
-    const day = date.getDate();
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const seconds = date.getSeconds();
-
-    const resultDate = `${year}년 ${month}월 ${day}일 ${hours}시 ${minutes}분 ${seconds}초`
-
-    return resultDate
-  }
-
   // 할일 완료/미완료 체크 onChange
   const handleCheckOnChange = (e) => {
     const todoId = parseInt(e.target.value);
@@ -72,8 +54,7 @@ function App() {
       }));
   }
 
-  ///////////
-  // todoList 필터 전체/완료/미완료
+  //todoList 필터 전체/완료/미완료
   const todoListFilter  = (filterValue) => {
 
     setShowTodoList(() => 
@@ -111,7 +92,7 @@ function App() {
     }));
   }
 
-  // 타이틀 입력값 변경 함수
+  // 수정 onChange 함수
   const handleUpdateInputChange = (e, todoId) => {
     const value = e.target.value;
 
@@ -155,17 +136,23 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <h1>Todo List 기술과제</h1>
+    <div css={S.layout}>
+      <div css={S.container}>
+
+      <div css={S.titleLayout}>
+        <div css={S.title}>JUST DO IT</div>
+      </div>
       
-      <input onChange={handleAddInputChange} value={newContent}/>
-      <button onClick={() => addContent()}>추가</button>
+      <div css={S.addLayout}>
+        <input css={S.addInput} onChange={handleAddInputChange} value={newContent}/>
+        <button css={S.addButton} onClick={() => addContent()}>+</button>
+      </div>
 
       {/* todo 목록 필터 */}
-      <div>
-        <button onClick={() => setShowStatus("전체")}>전체</button>
-        <button onClick={() => setShowStatus("완료")}>완료</button>
-        <button onClick={() => setShowStatus("미완료")}>미완료</button>
+      <div css={S.viewLayout}>
+        <button onClick={() => setShowStatus("전체")}>All</button>
+        <button onClick={() => setShowStatus("완료")}>Completed</button>
+        <button onClick={() => setShowStatus("미완료")}>Incomplete</button>
       </div>
 
       {/* todo 목록 */}
@@ -235,7 +222,7 @@ function App() {
 
 
 
-
+      </div>    
 
     </div>
   );

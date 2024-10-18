@@ -1,6 +1,4 @@
-import { useState } from "react";
-
-export const useChangeDate = (timestamp) => {
+export const changeDate = (timestamp) => {
 
     let date = new Date(timestamp);
 
