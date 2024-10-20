@@ -3,6 +3,11 @@ import * as S from "./style.js";
 import { useEffect, useState } from "react";
 import { useGetItem } from "./hooks/useGetItem";
 import { changeDate } from "./hooks/changeDate";
+import { FaTrash } from "react-icons/fa";
+import { FaCheck } from "react-icons/fa6";
+
+import { FaRegEdit } from "react-icons/fa";
+import { MdModeEdit } from "react-icons/md";
 
 function App() {
   const getTodoList = useGetItem();
@@ -156,51 +161,64 @@ function App() {
       </div>
 
       {/* todo 목록 */}
-      <div>
-        <ul>
+      <div css={S.listLayout}>
+        <ul css={S.listContainer}>
           {
             showTodoList.map((todo, i) => {
               return(
-                <li key={i}>
-                  {/* 제목 */}
-                  {
-                    todo.updateStatus ? 
+                <li css={S.liLayout} key={i}>
+                  
+                  <div css={S.todoLayout}>
+                    {
+                      todo.updateStatus ? 
                       <>
+                        {/* 변경 input창 */}
                         <input
+                          autofocus
+                          css={S.editInput}
                           value={todo.inputValue || ""}
                           onChange={(e) => handleUpdateInputChange(e, todo.id)}
                         />
-
-                        <div>
-                          <button onClick={() => updateCancle(todo.id)}>수정취소</button>
-                          <button onClick={() => updateContent(todo.id)}>수정하기</button>    
+                        {/* 변경 버튼 */}
+                        <div css={S.editButton}>
+                          <button onClick={() => updateContent(todo.id)}><MdModeEdit/></button>    
+                          <button onClick={() => updateCancle(todo.id)}>X</button>
                         </div>
                       </>
                       :
-                      <div>
-                        {todo.title}
-                      </div>
-                  }
-                  
+                      <>
+                        {/* TODO 제목 */}
+                        <div onClick={() => {openUpdateInput(todo.id)}} css={S.coment}>
+                          {todo.title}
+                        </div>
+                        {/* 체크버튼 */}
+                        <div css={S.changeStatus}>
+                          <input
+                            type="checkbox"
+                            value={todo.id}
+                            checked={todo.status}
+                            onChange={handleCheckOnChange}
+                            id={`checkbox-${todo.id}`}
+                          />
+                          <label htmlFor={`checkbox-${todo.id}`}>
+                            <span><FaCheck/></span>
+                          </label>
+                          {/* 삭제버튼 */}
+                          <button onClick={() => {deleteTodo(todo.id)}}><FaTrash/></button>
+                        </div>
+                      </>
+                    }
+                    
 
-                  {/* 날짜 */}
-                  <div>
-                    {changeDate(todo.id)}
+
+                      
                   </div>
 
-                  {/* 완료/미완료 */}
-                  <input
-                    type="checkbox"
-                    value={todo.id}
-                    checked={todo.status}
-                    onChange={handleCheckOnChange}
-                  />
-
-                  {/* 수정버튼 */}
-                  <button onClick={() => {openUpdateInput(todo.id)}}>수정</button>
-                  {/* 삭제버튼 */}
-                  <button onClick={() => {deleteTodo(todo.id)}}>삭제</button>
                   
+                  {/* 날짜 */}
+                  {/* <div>
+                    {changeDate(todo.id)}
+                  </div> */}
                 </li>
               )
             })

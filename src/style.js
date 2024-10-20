@@ -3,10 +3,6 @@ import { css } from "@emotion/react";
 export const layout = css`
     width: 900px;
     height: 700px;
-    /* position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); */
     margin: 100px auto;
 `   
 
@@ -114,5 +110,114 @@ export const viewLayout = css`
         transition: 0.2s ease-out;
         background-color: #ffffff;
         color: #212121;
+    }
+`
+
+export const listLayout = css`
+    margin-top: 15px;
+    width: 100%;
+    height: 500px;
+    overflow-y: auto;
+
+`
+
+export const listContainer =css`
+    list-style-type: none;
+`
+export const liLayout = css`
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    `
+
+export const todoLayout = css`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 40%;
+    height: 50px;
+    border-bottom: 2px solid #606060;
+    &:hover {
+        border-bottom: 3px solid #606060;
+    }
+
+    
+`
+export const coment = css`
+    width: 280px;
+    overflow-y: auto;
+    cursor: pointer;
+    transition: 0.2s ease-out;
+    &:hover {
+        transition: 0.2s ease-out;
+    }
+`
+
+
+export const changeStatus = css`
+    & > input[type="checkbox"] {
+        display: none;
+    }
+    & > input[type="checkbox"]:checked + label > span {
+        color: #ffffff;
+    }
+    & > label > span {
+        cursor: pointer;
+        display: inline-block;
+        width: 17px;
+        height: 17px;
+        color: #606060;
+        border: 1px solid #606060;
+        border-radius: 3px;
+        background-color: #606060;
+        transition: color 0.3s; /* 선택사항: 부드러운 전환 효과 */
+    }
+
+    & > label > span:hover {
+        color: #212121;
+        background-color: #212121;
+    }
+
+    & > button {
+        cursor: pointer;
+        font-size: 17px;
+        border: 0;
+        background-color: transparent;
+        color: #606060;
+        transition: 0.2s ease-out;
+    }
+    & > button:hover {
+        color: #212121;
+    }
+`
+export const editInput = css`
+    width: 280px;
+    border: none;
+    /* text-align : center; */
+    font-size: 15px;
+    &:focus {
+        outline: none;
+    }
+`
+
+
+export const editButton = css`
+    & > :nth-child(1){
+        cursor: pointer;
+        font-size: 17px;
+        border: 0;
+        background-color: transparent;
+        color: #606060;
+        transition: 0.2s ease-out;
+    }
+    & > :nth-child(2){
+        /* margin-left: 5px; */
+        text-align: center;
+        width: 17px;
+        height: 17px;
+        background-color: #606060;
+        color: #ffffff;
+        border: 0px;
+        border-radius: 5px;
     }
 `

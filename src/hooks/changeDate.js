@@ -9,7 +9,7 @@ export const changeDate = (timestamp) => {
     const minutes = date.getMinutes();
     const seconds = date.getSeconds();
 
-    const resultDate = `${year}년 ${month}월 ${day}일 ${hours}시 ${minutes}분 ${seconds}초`
+    const resultDate = `${year}/${month}/${day} ${hours}h ${minutes}m ${seconds}s`
 
     return resultDate
 }
