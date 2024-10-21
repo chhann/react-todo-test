@@ -118,7 +118,30 @@ export const listLayout = css`
     width: 100%;
     height: 500px;
     overflow-y: auto;
-
+    &::-webkit-scrollbar {
+        transition: 0.2s ease-out;
+        width: 10px;
+    }
+    &::-webkit-scrollbar-thumb {
+        cursor: pointer;
+        transition: 0.2s ease-out;
+        background-color: #606060;
+        border-radius: 3px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        transition: 0.2s ease-out;
+        background-color: #212121;
+        border-radius: 3px;
+    }
+    &::-webkit-scrollbar-thumb:active {
+        transition: 0.2s ease-out;
+        background-color: gray;
+        border-radius: 3px;
+    }
+    &::-webkit-scrollbar-track {
+        background-color: #fafafafa;
+    }
+    
 `
 
 export const listContainer =css`
@@ -193,7 +216,7 @@ export const changeStatus = css`
 export const editInput = css`
     width: 280px;
     border: none;
-    /* text-align : center; */
+    text-align : center;
     font-size: 15px;
     &:focus {
         outline: none;
@@ -202,7 +225,9 @@ export const editInput = css`
 
 
 export const editButton = css`
+    display: flex;
     & > :nth-child(1){
+        padding-right: 2px;
         cursor: pointer;
         font-size: 17px;
         border: 0;
@@ -211,13 +236,16 @@ export const editButton = css`
         transition: 0.2s ease-out;
     }
     & > :nth-child(2){
-        /* margin-left: 5px; */
-        text-align: center;
-        width: 17px;
-        height: 17px;
-        background-color: #606060;
-        color: #ffffff;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 17px;
+        /* width: 17px;
+        height: 17px; */
+        color: #606060;
         border: 0px;
-        border-radius: 5px;
+        background-color: white;
+    }
+    & > button:hover {
+        color: #212121;
     }
 `
