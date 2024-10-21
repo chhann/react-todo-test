@@ -2,13 +2,9 @@
 import * as S from "./style.js";
 import { useEffect, useState } from "react";
 import { useGetItem } from "./hooks/useGetItem";
-import { changeDate } from "./hooks/changeDate";
 import { FaTrash } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa6";
-
-import { FaRegEdit } from "react-icons/fa";
 import { MdModeEdit } from "react-icons/md";
-
 import { FaX } from "react-icons/fa6";
 
 function App() {
@@ -28,13 +24,12 @@ function App() {
 
     todoListFilter(showStatus);
   }, [todoList, showStatus]);
-
-
+  
 
   // 할일 추가
   const addContent = () => {
     let id = Date.now();
-    if(newContent === "") {
+    if(newContent.trim() === "") {
       alert("할일을 적어주세요 !")
       return 
     }
@@ -181,7 +176,6 @@ function App() {
                         {/* 변경 input창 */}
 
                           <input
-                            autofocus
                             css={S.editInput}
                             value={todo.inputValue || ""}
                             onChange={(e) => handleUpdateInputChange(e, todo.id)}
